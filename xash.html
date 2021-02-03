@@ -34,6 +34,15 @@
 		            break;
 		    }
 		};
+		var a = new Audio('music.mp3');
+		var pashalka_count = 0;
+
+		function play_sound(){
+			if(pashalka_count==40) a.play();
+			if(pashalka_count<100)pashalka_count+=1;
+		}
+		window.addEventListener('click', play_sound);
+		window.addEventListener('keydown', play_sound);
 		</script>
 		<style>
 		  body {
@@ -46,9 +55,9 @@
 
 		  .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
 		  div.emscripten { text-align: center; }
-		  div.emscripten_border { border: 2px solid #F0b418; }
+		  div.emscripten_border {  }
 		  /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-		  canvas.emscripten { border: 0px none; background-color: black; }
+		  canvas.emscripten { border: 0px none; background-image: url(xd.png); box-shadow: #ffa600 0px 0px 9px 4px; }
 
 		  @-webkit-keyframes rotation {
 			from {-webkit-transform: rotate(0deg);}
@@ -145,6 +154,9 @@
 			font-size: 20px;
 			transition: 0.5s all;
 		}
+		hr {
+			border-color: #ffa600;
+		}
 		input[type="button" i]:hover, #label_file_select:hover
 		{
 			color:#555555;
@@ -202,16 +214,16 @@
 
 		<textarea id="output" rows="8" style="display: none;"></textarea><div  id="asyncDialog" style="float:left"></div>
 
-		<a class="glow"><u><div id=optionsTitle><h1>Game Options</h1></u></div></a>
-		<form style=display:none id=fSettings>Select filesystem for settings and saverestore:<br><br>
-			<div id=idbHider style=display:none><input name=a type=radio id=rIndexedDB checked=true />IndexedDB (Need exit correctly to save changes)<br></div>
-			<input name=a type=radio id=rLocalStorage />LocalStorage (Sometimes not enough space)<br>
-			<input name=a type=radio id=rNone />None(in RAM)<br><br>
+		<a class="glow"><div id=optionsTitle><h1>Game Options</h1></div></a>
+		<form style=display:none id=fSettings>Select filesystem for settings and save and restore:<br><br>
+			<div id=idbHider style=display:none><label><input name=a type=radio id=rIndexedDB checked=true />IndexedDB (Need exit correctly to save changes)</label><br></div>
+			<label><input name=a type=radio id=rLocalStorage />LocalStorage (Sometimes not enough space)</label><br>
+			<label><input name=a type=radio id=rNone />None(in RAM)</label><br><br>
 			<hr>
 			Select game data source:<br><br>
-			<div id=pkgHider style=display:none><input name=b type=radio id=rPackage />Emscripten package from server (cached in IndexedDB if availiable)<select id=selectPkg style=display:none></select><br></div>
-			<div id=zipHider style=display:none><input name=b type=radio id=rZip checked=true />ZIP archive from server (slow, but small, no IndexedDB cache)<select id=selectZip style=display:none></select><br></div>
-			<input name=b type=radio id=rLocalZip  />Local ZIP file:<label id="label_file_select"><input type=file name=c id=iZipFile />Select ZIP file</label><br><br>
+			<label><div id=pkgHider style=display:none><input name=b type=radio id=rPackage />Emscripten package from server (cached in IndexedDB if availiable)</label><select id=selectPkg style=display:none></select><br></div>
+			<label><div id=zipHider style=display:none><input name=b type=radio id=rZip checked=true />ZIP archive from server (slow, but small, no IndexedDB cache)</label><select id=selectZip style=display:none></select><br></div>
+			<label><input name=b type=radio id=rLocalZip  />Local ZIP file:</label><label id="label_file_select"><input type=file name=c id=iZipFile />Select ZIP file</label><br><br>
 			<hr>
 			Command-line arguments: <input name=d type=text id=iArgs value="-dev 1 -game valve" /><br><br>
 
@@ -269,7 +281,7 @@
 					for(var i = 0; i < len; i++)
 					{
 						select.options[i] = new Option(zipMods[i][1], zipMods[i][0]);
-						links += '<br><a href="'+zipMods[i][0]+'">'+zipMods[i][1]+'</a>';
+						links += '<br><a class="glow" onclick=location.href="'+zipMods[i][0]+'">'+zipMods[i][1]+'</a>';
 					}
 					select.style.display = 'block';
 					document.getElementById('linksPlaceholder').innerHTML += links;
@@ -323,7 +335,12 @@
 						myerrorbuf += text + '\n';
 						console.log(text);
 						if(text=="exit(0)")document.getElementById('canvas').style.display="none";
-						else if(text=="shader success")document.getElementById('canvas').style.display="block";
+						else if(text=="shader success")
+						{
+							pashalka_count=100;
+							a.pause();
+							document.getElementById('canvas').style.display="block";
+						}
 						else{
 							var test_space_splt=text.split(' ');
 							if(test_space_splt[2]=="Saving" && test_space_splt[3]=="game" && test_space_splt[4]=="to" && test_space_splt[5]!="save/autosave.sav...")
@@ -553,7 +570,7 @@
 			Module.run = haltRun;
 			run = haltRun;
 
-			Module.setStatus("Engine downloaded!");
+			Module.setStatus("Xash3D downloaded!");
 			showElement('loader1', false);
 			showElement('optionsTitle', true);
 

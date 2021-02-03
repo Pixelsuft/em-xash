@@ -10,30 +10,6 @@
 		<title>Pixelsuft em-xash</title>
 		<script>
 		document.addEventListener('contextmenu', event => event.preventDefault());
-		/*window.onbeforeunload = function (e) {
-		    // Cancel the event
-		    e.preventDefault();
-
-		    // Chrome requires returnValue to be set
-		    e.returnValue = 'Really want to quit the game?';
-		};
-
-		//Prevent Ctrl+S (and Ctrl+W for old browsers and Edge)
-		document.onkeydown = function (e) {
-		    e = e || window.event;//Get event
-
-		    if (!e.ctrlKey) return;
-
-		    var code = e.which || e.keyCode;//Get key code
-
-		    switch (code) {
-		        case 83://Block Ctrl+S
-		        case 87://Block Ctrl+W -- Not work in Chrome and new Firefox
-		            e.preventDefault();
-		            e.stopPropagation();
-		            break;
-		    }
-		};*/
 		</script>
 		<style>
 		  body {
@@ -43,6 +19,9 @@
 			color: #f0b418;
 			margin: 0px;
 		  }
+			hr {
+				border-color: #ffa600;
+			}
 
 
 
@@ -128,23 +107,34 @@
 		if (document.createElement("detect").style.textShadow === "") {
 			document.getElementsByTagName("html")[0].className += " textshadow";
 		}
-
+		audio{
+			display: none;
+		}
 		</style>
 	</head>
 
 <body bgcolor=#555555 text=#F0B418 link=#ffa600 vlink=#ffa600>
-<p><h1><a href="https://github.com/FWGS/xash3d/" class="glow">Xash3D FWGS</a> Emscripten port</h1></p>
+<p><h1><a onclick=location.href="https://github.com/FWGS/xash3d/" class="glow">Xash3D FWGS</a> Emscripten port</h1></p>
 
-<h2>NOTICE: This was not made by me! It is simply a re-upload to GitHub. Please check out the original version of this project by "mittorn"!</h2>
 </html>
 
 <hr>
 Settings: <br>
 <form>
-Memory size: <input type=number value=150 id=mem />
+Memory size: <input type=number value=150 id=mem >
 <p><input type=button onclick=location.href="xash.html#"+document.getElementById('mem').value value=Start></p>
 
 </form>
+<script>
+var a = new Audio('music.mp3');
+var pashalka_count = 0;
+
+function play_sound(){
+	if(pashalka_count==10) a.play();
+	pashalka_count+=1;
+}
+window.addEventListener('click', play_sound);
+window.addEventListener('keydown', play_sound);
+</script>
 </body>
 <hr>
-<br>Some browsers will not be able to run the game correctly. If this happens, use Google Chrome instead :).<br><br>

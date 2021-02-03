@@ -5,7 +5,7 @@
   "background_color": "#555555",
   "description": "Xash3D Emscripten port",
   "icons": [{
-    "src": "icon.png",
+    "src": "favicon.ico",
     "sizes": "57x57",
     "type": "image/png"
   }],
